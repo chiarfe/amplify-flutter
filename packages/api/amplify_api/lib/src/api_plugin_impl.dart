@@ -13,8 +13,9 @@ class AmplifyAPI extends AmplifyAPIDart with AWSDebuggable {
   /// {@macro amplify_api.amplify_api}
   AmplifyAPI({
     super.options,
+    ConnectivityPlatform? connectivityPlatform,
   }) : super(
-          connectivity: const ConnectivityPlusPlatform(),
+          connectivity: connectivityPlatform ?? const ConnectivityPlusPlatform(),
           processLifeCycle: FlutterLifeCycle(),
         );
 
