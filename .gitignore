@@ -24,6 +24,7 @@ doc/api/
 # IDEs
 .idea/
 .vscode/
+.vs/
 .atom/
 .idea/
 

@@ -36,6 +36,9 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+export 'package:amplify_authenticator/src/screens/authenticator_screen.dart';
+export 'package:amplify_authenticator/src/utils/unmet_password_requirements.dart';
+
 export 'package:amplify_auth_cognito/amplify_auth_cognito.dart'
     show AuthProvider;
 export 'package:amplify_authenticator/src/utils/dial_code.dart' show DialCode;
@@ -537,17 +540,19 @@ class _AuthenticatorState extends State<Authenticator> {
   }
 
   void _subscribeToExceptions() {
+    final resolver = widget.stringResolver.cognito;
     _exceptionSub = _stateMachineBloc.exceptions.listen((exception) {
+      final context = scaffoldMessengerKey.currentContext;
       final onException = widget.onException;
       if (onException != null) {
         onException(exception);
       } else {
         _logger.error('Error in AuthBloc', exception);
       }
-      if (mounted && exception.showBanner) {
+      if (mounted && exception.showBanner && context != null) {
         _showExceptionBanner(
           type: StatusType.error,
-          message: exception.message,
+          message: resolver.resolve(context, exception.message),
         );
       }
     });

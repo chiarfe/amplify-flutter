@@ -4,7 +4,10 @@
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:flutter/material.dart';
 
+import 'cognito_resolver.dart';
+
 export 'button_resolver.dart';
+export 'cognito_resolver.dart';
 export 'dial_code_resolver.dart';
 export 'input_resolver.dart';
 export 'instructions_resolver.dart';
@@ -27,12 +30,14 @@ class AuthStringResolver {
     InstructionsResolver? instructions,
     MessageResolver? messages,
     TitleResolver? titles,
+    CognitoResolver? cognito,
   })  : buttons = buttons ?? const ButtonResolver(),
         dialCodes = dialCodes ?? const DialCodeResolver(),
         inputs = inputs ?? const InputResolver(),
         instruction = instructions ?? const InstructionsResolver(),
         titles = titles ?? const TitleResolver(),
-        messages = messages ?? const MessageResolver();
+        messages = messages ?? const MessageResolver(),
+        cognito = cognito ?? const CognitoResolver();
 
   /// The resolver class for shared button Widgets
   final ButtonResolver buttons;
@@ -52,13 +57,17 @@ class AuthStringResolver {
   /// The resolver class for instructions
   final InstructionsResolver instruction;
 
+  /// The resolver class for cognito errors
+  final CognitoResolver cognito;
+
   @override
   bool operator ==(Object other) =>
       other is AuthStringResolver &&
       buttons == other.buttons &&
       dialCodes == other.dialCodes &&
       inputs == other.inputs &&
-      titles == other.titles;
+      titles == other.titles &&
+      cognito == other.cognito;
 
   @override
   int get hashCode => Object.hash(buttons, inputs, titles);
